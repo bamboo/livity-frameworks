@@ -111,11 +111,11 @@ task check(type: Exec) {
   outputs.file 'TestResult.xml'
   doFirst {
     def nunitRunner= 'lib/NUnit.Runners/tools/nunit-console.exe'
-    if (!OS.isWindows()) {
+    if (OS.isWindows()) {
+      executable nunitRunner
+    } else {
       executable 'mono'
       args nunitRunner
-    } else {
-      executable nunitRunner
     }
     args inputs.files
   }
