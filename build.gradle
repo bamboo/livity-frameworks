@@ -93,6 +93,10 @@ task build(type: XBuild) {
   configuration 'Release'
 }
 
+task clean(type: XBuild) {
+  target 'Clean'
+}
+
 task debug(type: XBuild) {
   dependsOn install
   target 'Build'
