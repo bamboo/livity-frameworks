@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1C6E7511-87BE-3972-8CB4-B12240734F9D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Livity.Collections</RootNamespace>
+    <AssemblyName>Livity.Collections</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Livity.Collections.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="Cache.cs" />
+    <Compile Include="CircularBuffer.cs" />
+    <Compile Include="CircularIterator.cs" />
+    <Compile Include="CompositeReadOnlyCollection.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Immutable.cs" />
+    <Compile Include="ImmutableGrouping.cs" />
+    <Compile Include="ImmutableList.cs" />
+    <Compile Include="INamed.cs" />
+    <Compile Include="InsertionBuffer.cs" />
+    <Compile Include="Lazy.cs" />
+    <Compile Include="ListExtensions.cs" />
+    <Compile Include="ListSegment.cs" />
+    <Compile Include="MostRecentlyUsed.cs" />
+    <Compile Include="Pair.cs" />
+    <Compile Include="PieceTable.cs" />
+    <Compile Include="PropertyOwner.cs" />
+    <Compile Include="Span.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Concurrent\ConcurrentDictionary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,8 @@
+/.gradle
+/lib
+build
+bin
+obj
+*.user
+*.suo
+

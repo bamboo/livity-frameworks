@@ -1,0 +1,93 @@
+configurations {
+  lib
+}
+
+dependencies {
+  lib 'nuget:nunit:2.6.3'
+}
+
+repositories {
+  ivy {
+    url 'https://raw.githubusercontent.com/bamboo/artifacts/master'
+  }
+}
+
+project(':src') {
+  subprojects { component ->
+
+    apply plugin: 'base'
+
+    group = 'github.bamboo'
+
+    version = '1.0'
+
+    task zip(type: Zip) {
+      dependsOn ':build'
+      from 'bin/Release'
+      include "${component.name}.dll"
+      include "${component.name}.xml"
+    }
+
+    artifacts {
+      'default' zip
+    }
+
+    uploadArchives {
+      repositories {
+        ivy {
+          url rootProject.file('../artifacts')
+        }
+      }
+    }
+
+    task publish {
+      dependsOn uploadArchives
+    }
+  }
+}
+
+project(':src:Livity.Composition') {
+  dependencies {
+    'default' project(':src:Livity.Collections')
+  }
+}
+
+task install {
+  inputs.source configurations.lib
+  outputs.dir 'lib'
+  doFirst {
+    inputs.files.each { artifact ->
+      def artifactId = artifact.name.split('-')[0]
+      copy {
+        from zipTree(artifact)
+        into project.file("lib/$artifactId")
+      }
+    }
+  }
+}
+
+class XBuild extends Exec {
+  XBuild() {
+    executable (System.properties['os.name'].toLowerCase().contains('windows') ? 'msbuild' : 'xbuild')
+  }
+
+  def target(t) {
+    args "/target:$t"
+  }
+
+  def configuration(c) {
+    args "/p:Configuration=$c"
+  }
+}
+
+task build(type: XBuild) {
+  dependsOn install
+  target 'Rebuild'
+  configuration 'Release;TargetFrameworkVersion=v3.5'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.1'
+}
+
+defaultTasks 'build'

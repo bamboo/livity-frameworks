@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D7B3502E-6ECF-3662-A5D8-F2BD20CCA7DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Livity.Composition</RootNamespace>
+    <AssemblyName>Livity.Composition</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Livity.Composition.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CompositionError.cs" />
+    <Compile Include="CompositionException.cs" />
+    <Compile Include="ContractAttribute.cs" />
+    <Compile Include="ExportAttribute.cs" />
+    <Compile Include="HasExportsAttribute.cs" />
+    <Compile Include="ImportAttribute.cs" />
+    <Compile Include="ImportingConstructor.cs" />
+    <Compile Include="ImportManyAttribute.cs" />
+    <Compile Include="Hosting\AggregateCatalog.cs" />
+    <Compile Include="Hosting\AssemblyExtensions.cs" />
+    <Compile Include="Hosting\CompositionContainer.cs" />
+    <Compile Include="Hosting\DirectoryCatalog.cs" />
+    <Compile Include="Hosting\EmptyArray.cs" />
+    <Compile Include="Hosting\ReflectionExtensions.cs" />
+    <Compile Include="Hosting\TypeCatalog.cs" />
+    <Compile Include="Primitives\CompositionErrors.cs" />
+    <Compile Include="Primitives\CustomAttribute.cs" />
+    <Compile Include="Primitives\Export.cs" />
+    <Compile Include="Primitives\ExportDefinition.cs" />
+    <Compile Include="Primitives\IExportDefinitionProvider.cs" />
+    <Compile Include="Primitives\IExportProvider.cs" />
+    <Compile Include="Primitives\IMetadataProvider.cs" />
+    <Compile Include="Primitives\ImportCardinality.cs" />
+    <Compile Include="Primitives\ImportDefinition.cs" />
+    <Compile Include="Primitives\ImportDefinitionProvider.cs" />
+    <Compile Include="Primitives\TypeExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Livity.Collections\Livity.Collections.csproj">
+      <Project>{1C6E7511-87BE-3972-8CB4-B12240734F9D}</Project>
+      <Name>Livity.Collections</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
