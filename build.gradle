@@ -3,7 +3,7 @@ configurations {
 }
 
 dependencies {
-  lib 'nuget:nunit:2.6.3'
+  lib 'nuget:NUnit:2.6.3'
 }
 
 repositories {
