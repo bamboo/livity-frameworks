@@ -86,8 +86,20 @@ task build(type: XBuild) {
   configuration 'Release;TargetFrameworkVersion=v3.5'
 }
 
+task debug(type: XBuild) {
+  dependsOn install
+  target 'Build'
+  configuration 'Debug'
+}
+
+task check(type: Exec) {
+  dependsOn debug
+  executable 'nunit-console'
+  args fileTree(dir: 'src', include: '**/bin/Debug/*.Tests.dll')
+}
+
 task wrapper(type: Wrapper) {
   gradleVersion = '2.1'
 }
 
-defaultTasks 'build'
+defaultTasks 'check'
