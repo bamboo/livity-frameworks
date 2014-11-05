@@ -4,6 +4,7 @@ configurations {
 
 dependencies {
   lib 'nuget:NUnit:2.6.3'
+  lib 'nuget:NUnit.Runners:2.6.3'
 }
 
 repositories {
@@ -104,11 +105,13 @@ task check(type: Exec) {
     fileTree(dir: 'src', include: '**/bin/Debug/*.Tests.dll')
   }
   outputs.file 'TestResult.xml'
-  executable 'nunit-console'
   doFirst {
+    def nunitRunner= 'lib/NUnit.Runners/tools/nunit-console.exe'
     if (!OS.isWindows()) {
-      args '-framework=4.0'
-      args '-domain=none'
+      executable 'mono'
+      args nunitRunner
+    } else {
+      executable nunitRunner
     }
     args inputs.files
   }
