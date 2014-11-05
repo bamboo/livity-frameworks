@@ -66,9 +66,15 @@ task install {
   }
 }
 
+class OS {
+  static def isWindows() {
+    return System.properties['os.name'].toLowerCase().contains('windows')
+  }
+}
+
 class XBuild extends Exec {
   XBuild() {
-    executable (System.properties['os.name'].toLowerCase().contains('windows') ? 'msbuild' : 'xbuild')
+    executable(OS.isWindows() ? 'msbuild' : 'xbuild')
   }
 
   def target(t) {
@@ -83,7 +89,7 @@ class XBuild extends Exec {
 task build(type: XBuild) {
   dependsOn install
   target 'Rebuild'
-  configuration 'Release;TargetFrameworkVersion=v3.5'
+  configuration 'Release'
 }
 
 task debug(type: XBuild) {
@@ -94,8 +100,18 @@ task debug(type: XBuild) {
 
 task check(type: Exec) {
   dependsOn debug
+  inputs.source {
+    fileTree(dir: 'src', include: '**/bin/Debug/*.Tests.dll')
+  }
+  outputs.file 'TestResult.xml'
   executable 'nunit-console'
-  args fileTree(dir: 'src', include: '**/bin/Debug/*.Tests.dll')
+  doFirst {
+    if (!OS.isWindows()) {
+      args '-framework=4.0'
+      args '-domain=none'
+    }
+    args inputs.files
+  }
 }
 
 task wrapper(type: Wrapper) {
