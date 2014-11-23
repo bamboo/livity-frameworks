@@ -42,10 +42,12 @@
     <Compile Include="CompositionContainerTest.cs" />
     <Compile Include="CompositionCyclesTest.cs" />
     <Compile Include="ImportDefinitionProviderTest.cs" />
+    <Compile Include="ImportingConstructorTest.cs" />
     <Compile Include="LazyImportManyTest.cs" />
     <Compile Include="LazyImportTest.cs" />
     <Compile Include="LazyTest.cs" />
     <Compile Include="PartsTest.cs" />
+    <Compile Include="TestWithCompositionContainer.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

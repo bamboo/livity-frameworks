@@ -7,20 +7,12 @@ using NUnit.Framework;
 namespace Livity.Composition.Tests
 {
 	[TestFixture]
-	public class CompositionContainerTest
+	public class CompositionContainerTest : TestWithCompositionContainer
 	{
-		private CompositionContainer _container;
-
-		[SetUp]
-		public void SetUp()
-		{
-			_container = new CompositionContainer(GetType().Assembly);
-		}
-
 		[Test]
 		public void ContainerIsExportedAsExportProvider()
 		{
-			Assert.AreSame(_container, GetExportedValue<IExportProvider>());
+			Assert.AreSame(Container, GetExportedValue<IExportProvider>());
 		}
 
 		[Test]
@@ -50,12 +42,6 @@ namespace Livity.Composition.Tests
 		}
 
 		[Test]
-		public void GetExportedValueSatisfiesImportingConstructor()
-		{
-			Assert.AreSame(GetExportedValue<IService>(), GetExportedValue<ServiceWithImportingConstructor>().AService);
-		}
-
-		[Test]
 		public void PartCanExportMultipleContracts()
 		{
 			Assert.AreSame(GetExportedValue<IContract1>(), GetExportedValue<IContract2>());
@@ -66,9 +52,9 @@ namespace Livity.Composition.Tests
 		public void CanAddExportedValueWithoutMetadata()
 		{
 			const string value = "42";
-			_container.AddExportedValue(value);
+			Container.AddExportedValue(value);
 
-			var export = _container.GetExports(typeof(string)).Single();
+			var export = Container.GetExports(typeof(string)).Single();
 			Assert.AreEqual(value, export.Value);
 			Assert.IsFalse(export.Metadata.Any(), "No metadata for added exported value");
 		}
@@ -79,9 +65,9 @@ namespace Livity.Composition.Tests
 			const string value = "42";
 			const string metadata = "LTUAE";
 
-			_container.AddExportedValue(value, metadata);
+			Container.AddExportedValue(value, metadata);
 
-			var export = _container.GetExports(typeof(string)).Single();
+			var export = Container.GetExports(typeof(string)).Single();
 			Assert.AreEqual(value, export.Value);
 			Assert.AreEqual(metadata, export.Metadata.Single());
 		}
@@ -91,7 +77,7 @@ namespace Livity.Composition.Tests
 		[TestCase(typeof(BaseTypeWithNonInheritedContract), typeof(BaseTypeWithNonInheritedContract))]
 		public void ExportedContractIsNotInherited(Type contractType, Type expectedImplementation)
 		{
-			var exports = _container.GetExports(contractType).ToList();
+			var exports = Container.GetExports(contractType).ToList();
 			Assert.AreEqual(1, exports.Count);
 			Assert.AreSame(expectedImplementation, exports[0].Definition.Implementation);
 		}
@@ -120,13 +106,8 @@ namespace Livity.Composition.Tests
 
 		void AssertImplementationsOf(Type contractType, params Type[] expectedImplementations)
 		{
-			var actualImplementations = _container.GetExports(contractType).Select(_ => _.Definition.Implementation);
+			var actualImplementations = Container.GetExports(contractType).Select(_ => _.Definition.Implementation);
 			CollectionAssert.AreEquivalent(expectedImplementations, actualImplementations);
-		}
-
-		private T GetExportedValue<T>()
-		{
-			return _container.GetExportedValue<T>();
 		}
 
 		// ReSharper disable ClassNeverInstantiated.Global
@@ -175,18 +156,6 @@ namespace Livity.Composition.Tests
 			// ReSharper restore UnusedAutoPropertyAccessor.Global 
 		}
 		// ReSharper restore UnusedMember.Global
-
-		[Export]
-		public class ServiceWithImportingConstructor
-		{
-			[ImportingConstructor]
-			ServiceWithImportingConstructor(IService service)
-            {
-				AService = service;
-			}
-
-			public IService AService { get; private set; }
-		}
 		// ReSharper restore ClassNeverInstantiated.Global
 
 		public interface IContract1
