@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Livity.Collections
 {
@@ -22,6 +23,14 @@ namespace Livity.Collections
 				action(element);
 				yield return element;
 			}
+		}
+
+		public static Array ToArrayOf(this IEnumerable<object> enumerable, Type contractType)
+		{
+			var source = enumerable.ToArray();
+			var result = Array.CreateInstance(contractType, source.Length);
+			Array.Copy(source, result, source.Length);
+			return result;
 		}
 	}
 }

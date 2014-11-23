@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -204,7 +205,25 @@ namespace Livity.Composition.Hosting
 
 		IEnumerable<object> ExportedValuesFor(ConstructorInfo importingConstructor)
 		{
-			return importingConstructor.GetParameters().Select(p => GetExportedValue(p.ParameterType));
+			return importingConstructor.GetParameters().Select(ExportedValueForParameter);
+		}
+
+		private object ExportedValueForParameter(ParameterInfo p)
+		{
+			var parameterType = p.ParameterType;
+			return parameterType.IsArray
+				? ExportedValueArrayOf(parameterType.GetElementType())
+				: GetExportedValue(parameterType);
+		}
+
+		private Array ExportedValueArrayOf(Type contractType)
+		{
+			return GetExportedValues(contractType).ToArrayOf(contractType);
+		}
+
+		private IEnumerable<object> GetExportedValues(Type contractType)
+		{
+			return GetExports(contractType).Select(it => it.Value);
 		}
 
 		static ConstructorInfo ImportingConstructorOf(Type implementation)
